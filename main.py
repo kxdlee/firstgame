@@ -17,14 +17,15 @@ window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("krutaya igrulya")
 
 # точка спавна игрока
-start_x = 100
+start_x = 140
 start_y = 120
 
 #импорт изображений
 bg = pygame.transform.scale(pygame.image.load("images/bg.png"),(width, height))
-player_img = pygame.transform.scale(pygame.image.load("images/player.png"),(54, 54))
+player_img = pygame.transform.scale(pygame.image.load("images/player.png"),(24, 24))
 wall_h = pygame.transform.scale(pygame.image.load("images/wall_h.png"), (64, 32))
 wall_v = pygame.transform.scale(pygame.image.load("images/wall_v.png"),(32,64))
+enemy_img = pygame.transform.scale(pygame.image.load("images/enemy.png"),(32, 32))
 
 # создание групп объектов
 all_sprites = pygame.sprite.Group()
@@ -32,6 +33,7 @@ all_sprites = pygame.sprite.Group()
 # создание групп спрайтов
 all_sprites = pygame.sprite.Group()
 walls = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
 
 #создание объектов
 player = Object(player_img, start_x, start_y, 1)
@@ -234,9 +236,9 @@ wall49 = Object(wall_v, 250, 70, 0)
 walls.add(wall49)
 all_sprites.add(wall49)
 
-wall50 = Object(wall_v, 250, 120, 0)
-walls.add(wall50)
-all_sprites.add(wall50)
+#wall50 = Object(wall_v, 250, 120, 0)
+#walls.add(wall50)
+#all_sprites.add(wall50)
 
 wall51 = Object(wall_v, 400, 70, 0)
 walls.add(wall51)
@@ -299,6 +301,78 @@ wall67 = Object(wall_v, 180, 310, 0)
 walls.add(wall67)
 all_sprites.add(wall67)
 
+wall68 = Object(wall_h, 475, 130, 0)
+walls.add(wall68)
+all_sprites.add(wall68)
+
+wall69 = Object(wall_h, 520, 130, 0)
+walls.add(wall69)
+all_sprites.add(wall69)
+
+wall70 = Object(wall_h, 616, 300, 0)
+walls.add(wall70)
+all_sprites.add(wall70)
+
+wall71 = Object(wall_h, 570, 300, 0)
+walls.add(wall71)
+all_sprites.add(wall71)
+
+wall72 = Object(wall_h, 540, 300, 0)
+walls.add(wall72)
+all_sprites.add(wall72)
+
+wall73 = Object(wall_h, 500, 300, 0)
+walls.add(wall73)
+all_sprites.add(wall73)
+
+wall74 = Object(wall_h, 460, 300, 0)
+walls.add(wall74)
+all_sprites.add(wall74)
+
+wall75 = Object(wall_h, 420, 300, 0)
+walls.add(wall75)
+all_sprites.add(wall75)
+
+wall76 = Object(wall_h, 380, 300, 0)
+walls.add(wall76)
+all_sprites.add(wall76)
+
+wall77 = Object(wall_v, 363, 268, 0)
+walls.add(wall77)
+all_sprites.add(wall77)
+
+wall78 = Object(wall_v, 363, 228, 0)
+walls.add(wall78)
+all_sprites.add(wall78)
+
+wall79 = Object(wall_h, 325, 210, 0)
+walls.add(wall79)
+all_sprites.add(wall79)
+
+wall80 = Object(wall_h, 290, 210, 0)
+walls.add(wall80)
+all_sprites.add(wall80)
+
+
+enemy1_x = 300
+enemy1_y = 250
+enemy1 = Object(enemy_img, enemy1_x, enemy1_y, 1)
+enemies.add(enemy1)
+all_sprites.add(enemy1)
+
+enemy2_x = 330
+enemy2_y = 165
+enemy2 = Object(enemy_img, enemy2_x, enemy2_y, 1)
+enemies.add(enemy2)
+all_sprites.add(enemy2)
+
+enemy3_x = 400
+enemy3_y = 450
+enemy3 = Object(enemy_img, enemy3_x, enemy3_y, 1)
+enemies.add(enemy3)
+all_sprites.add(enemy3)
+
+
 run = True
 
 while run:
@@ -320,10 +394,26 @@ while run:
         if keys[pygame.K_d]:
             player.image = player_img
             player.rect.x += player.speed
+    
+    # столкновение со стенами
+    if len(pygame.sprite.spritecollide(player, walls, False)) > 0:
+        player.rect.x = start_x
+        player.rect.y = start_y
+    if len(pygame.sprite.spritecollide(player, enemies, False)) > 0:
+        player.rect.x = start_x
+        player.rect.y = start_y
+    # движение врагов
+    enemy1.rect.y += enemy1.speed
+    enemy2.rect.x += enemy2.speed
+    enemy3.rect.x += enemy3.speed
 
+    if len(pygame.sprite.spritecollide(enemy1, walls, False)) > 0:
+        enemy1.speed *= -1
+    if len(pygame.sprite.spritecollide(enemy2, walls, False)) > 0:
+        enemy2.speed *= -1
 
-
-
+    if len(pygame.sprite.spritecollide(enemy3, walls, False)) > 0:
+        enemy3.speed *= -1
 
 
     all_sprites.draw(window)
