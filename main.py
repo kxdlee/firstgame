@@ -19,6 +19,9 @@ height = 600
 window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("krutaya igrulya")
 
+pygame.mixer.music.load("sound/main.mp3")
+pygame.mixer.music.play()
+pygame.mixer.music.set_volume(0.5)
 
 
 # точка спавна игрока
@@ -416,8 +419,7 @@ while run:
     enemy2.rect.x += enemy2.speed
     enemy3.rect.x += enemy3.speed
 
-    # получение предметов
-    if len(pygame.sprite.sp)
+    
 
     if len(pygame.sprite.spritecollide(enemy1, walls, False)) > 0:
         enemy1.speed *= -1
