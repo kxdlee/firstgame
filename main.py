@@ -1,5 +1,8 @@
 import pygame
+import pygame.mixer
 
+
+pygame.init()
 
 
 class Object(pygame.sprite.Sprite):
@@ -16,6 +19,8 @@ height = 600
 window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("krutaya igrulya")
 
+
+
 # точка спавна игрока
 start_x = 140
 start_y = 120
@@ -26,6 +31,8 @@ player_img = pygame.transform.scale(pygame.image.load("images/player.png"),(24, 
 wall_h = pygame.transform.scale(pygame.image.load("images/wall_h.png"), (64, 32))
 wall_v = pygame.transform.scale(pygame.image.load("images/wall_v.png"),(32,64))
 enemy_img = pygame.transform.scale(pygame.image.load("images/enemy.png"),(32, 32))
+
+
 
 # создание групп объектов
 all_sprites = pygame.sprite.Group()
@@ -372,6 +379,8 @@ enemy3 = Object(enemy_img, enemy3_x, enemy3_y, 1)
 enemies.add(enemy3)
 all_sprites.add(enemy3)
 
+# text
+
 
 run = True
 
@@ -406,6 +415,9 @@ while run:
     enemy1.rect.y += enemy1.speed
     enemy2.rect.x += enemy2.speed
     enemy3.rect.x += enemy3.speed
+
+    # получение предметов
+    if len(pygame.sprite.sp)
 
     if len(pygame.sprite.spritecollide(enemy1, walls, False)) > 0:
         enemy1.speed *= -1
