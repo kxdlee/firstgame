@@ -1,9 +1,13 @@
 import pygame
 import pygame.mixer
 
+from tkinter import *
+from tkinter import messagebox as mb
 
 pygame.init()
 
+# create hide tk window
+Tk().wm_withdraw()
 
 class Object(pygame.sprite.Sprite):
     def __init__(self, img, x, y, speed):
@@ -388,6 +392,9 @@ all_sprites.add(enemy3)
 run = True
 
 while run:
+    #if points == 3:
+        #mb.showinfo("Информация", "Вы выиграли!")
+        #run = False
     window.blit(bg, (0, 0))
 
     for event in pygame.event.get():
