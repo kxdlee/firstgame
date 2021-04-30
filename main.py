@@ -18,7 +18,7 @@ class Object(pygame.sprite.Sprite):
         self.rect.y = y
         self.speed = speed
 
-width = 800
+width = 1000
 height = 600
 window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("krutaya igrulya")
@@ -27,7 +27,8 @@ pygame.mixer.music.load("sound/main.mp3")
 pygame.mixer.music.play()
 pygame.mixer.music.set_volume(0.5)
 
-
+points_font = pygame.font.Font(None, 30)
+points_text = points_font.render('Монеты: 0', True, pygame.Color('red'))
 # точка спавна игрока
 start_x = 140
 start_y = 120
@@ -38,7 +39,7 @@ player_img = pygame.transform.scale(pygame.image.load("images/player.png"),(24, 
 wall_h = pygame.transform.scale(pygame.image.load("images/wall_h.png"), (64, 32))
 wall_v = pygame.transform.scale(pygame.image.load("images/wall_v.png"),(32,64))
 enemy_img = pygame.transform.scale(pygame.image.load("images/enemy.png"),(32, 32))
-
+coin_img = pygame.transform.scale(pygame.image.load("images/coin.png"), (32, 32))
 
 
 # создание групп объектов
@@ -48,6 +49,7 @@ all_sprites = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 enemies = pygame.sprite.Group()
+coins = pygame.sprite.Group()
 
 #создание объектов
 player = Object(player_img, start_x, start_y, 1)
@@ -386,15 +388,36 @@ enemy3 = Object(enemy_img, enemy3_x, enemy3_y, 1)
 enemies.add(enemy3)
 all_sprites.add(enemy3)
 
+# создание монет
+coin1_x = 600
+coin1_y = 350
+coin1 = Object(coin_img, coin1_x, coin1_y, 0)
+coins.add(coin1)
+all_sprites.add(coin1)
+
+coin2_x = 510
+coin2_y = 90
+coin2 = Object(coin_img, coin2_x, coin2_y, 0)
+coins.add(coin2)
+all_sprites.add(coin2)
+
+coin3_x = 620
+coin3_y = 460
+coin3 = Object(coin_img, coin3_x, coin3_y, 0)
+coins.add(coin3)
+all_sprites.add(coin3)
+
 # text
 
 
 run = True
 
+points = 0
+
 while run:
-    #if points == 3:
-        #mb.showinfo("Информация", "Вы выиграли!")
-        #run = False
+    if points == 3:
+        mb.showinfo("Информация", "Вы выиграли!")
+        run = False
     window.blit(bg, (0, 0))
 
     for event in pygame.event.get():
@@ -426,7 +449,11 @@ while run:
     enemy2.rect.x += enemy2.speed
     enemy3.rect.x += enemy3.speed
 
-    
+    # столкновение с монетами
+    if len(pygame.sprite.spritecollide(player, coins, True)) > 0:
+        points += 1
+        print(points)
+        points_text = points_font.render('Монеты: '+str(points), True, pygame.Color('red'))
 
     if len(pygame.sprite.spritecollide(enemy1, walls, False)) > 0:
         enemy1.speed *= -1
@@ -436,7 +463,7 @@ while run:
     if len(pygame.sprite.spritecollide(enemy3, walls, False)) > 0:
         enemy3.speed *= -1
 
-
+    window.blit(points_text, (800, 150))
     all_sprites.draw(window)
     all_sprites.update()
     pygame.display.update()
